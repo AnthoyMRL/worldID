@@ -5,7 +5,7 @@ import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from "@react-google-map
 import { Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-// Define the restaurant type
+// Define el tipo de restaurante
 interface Restaurant {
   id: string
   name: string
@@ -17,7 +17,6 @@ interface Restaurant {
   priceLevel: string
   distance: string
   isPopular: boolean
-  hasUserReviewed?: boolean
 }
 
 interface MapProps {
@@ -31,7 +30,7 @@ const containerStyle = {
   height: "100%",
 }
 
-// Default center (can be updated with user's location)
+// Centro predeterminado (puede actualizarse con la ubicación del usuario)
 const defaultCenter = {
   lat: 37.7749,
   lng: -122.4194, // San Francisco
@@ -49,7 +48,7 @@ export default function GoogleMapComponent({ restaurants, onRestaurantSelect, he
   const [center, setCenter] = useState(defaultCenter)
   const mapRef = useRef<google.maps.Map | null>(null)
 
-  // Get user's location
+  // Obtener la ubicación del usuario
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -62,7 +61,7 @@ export default function GoogleMapComponent({ restaurants, onRestaurantSelect, he
           setCenter(userPos)
         },
         () => {
-          console.log("Error getting location")
+          console.log("Error al obtener la ubicación")
         },
       )
     }
@@ -89,7 +88,7 @@ export default function GoogleMapComponent({ restaurants, onRestaurantSelect, he
     setSelectedRestaurant(null)
   }
 
-  // Center map on user location
+  // Centrar mapa en la ubicación del usuario
   const centerOnUserLocation = () => {
     if (userLocation && mapRef.current) {
       mapRef.current.panTo(userLocation)
@@ -101,8 +100,10 @@ export default function GoogleMapComponent({ restaurants, onRestaurantSelect, he
     return (
       <div className="flex items-center justify-center h-full bg-muted">
         <div className="text-center p-4">
-          <p className="text-red-500">Error loading maps</p>
-          <p className="text-sm text-muted-foreground mt-2">Please check your API key and internet connection</p>
+          <p className="text-red-500">Error al cargar el mapa</p>
+          <p className="text-sm text-muted-foreground mt-2">
+            Por favor, verifica tu clave de API y conexión a internet
+          </p>
         </div>
       </div>
     )
@@ -131,7 +132,7 @@ export default function GoogleMapComponent({ restaurants, onRestaurantSelect, he
           zoomControl: false,
         }}
       >
-        {/* User location marker */}
+        {/* Marcador de ubicación del usuario */}
         {userLocation && (
           <Marker
             position={userLocation}
@@ -146,7 +147,7 @@ export default function GoogleMapComponent({ restaurants, onRestaurantSelect, he
           />
         )}
 
-        {/* Restaurant markers */}
+        {/* Marcadores de restaurantes */}
         {restaurants.map((restaurant) => (
           <Marker
             key={restaurant.id}
@@ -158,7 +159,7 @@ export default function GoogleMapComponent({ restaurants, onRestaurantSelect, he
           />
         ))}
 
-        {/* Info window for selected restaurant */}
+        {/* Ventana de información para el restaurante seleccionado */}
         {selectedRestaurant && (
           <InfoWindow
             position={{ lat: selectedRestaurant.lat, lng: selectedRestaurant.lng }}
@@ -181,7 +182,7 @@ export default function GoogleMapComponent({ restaurants, onRestaurantSelect, he
         )}
       </GoogleMap>
 
-      {/* My location button */}
+      {/* Botón de Mi Ubicación */}
       {userLocation && (
         <Button
           size="sm"
@@ -189,7 +190,7 @@ export default function GoogleMapComponent({ restaurants, onRestaurantSelect, he
           className="absolute bottom-4 right-4 shadow-md"
           onClick={centerOnUserLocation}
         >
-          My Location
+          Mi Ubicación
         </Button>
       )}
     </div>

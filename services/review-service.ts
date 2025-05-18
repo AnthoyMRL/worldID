@@ -17,7 +17,14 @@ class ReviewService {
         return { success: false, message: error.message || "An unexpected error occurred" };
       }
     }
-  
+
+    async getAllReviews() {
+      // Simulated data for now
+      return [
+        { id: '1', restaurant: 'Sample Restaurant', rating: 4, text: 'Great food!', verified: true },
+        { id: '2', restaurant: 'Another Place', rating: 5, text: 'Excellent service', verified: false }
+      ];
+    }
   }
   
   export const reviewService = new ReviewService();

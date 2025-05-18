@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import dynamic from "next/dynamic"
 import { mockRestaurants, type Restaurant } from "@/data/restaurants"
+import { MiniKit } from "@worldcoin/minikit-js"
 
 // Dynamically import the Google Maps component with no SSR
 const GoogleMapComponent = dynamic(() => import("@/components/map/google-map"), {
@@ -20,32 +21,21 @@ const GoogleMapComponent = dynamic(() => import("@/components/map/google-map"), 
     <div className="h-[200px] bg-muted flex items-center justify-center">
       <div className="text-center">
         <MapPin className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-        <p className="text-sm text-muted-foreground">Loading map...</p>
+        <p className="text-sm text-muted-foreground">Cargando mapa...</p>
       </div>
     </div>
   ),
 })
 
-// Custom hook for media query
 function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = useState(false)
 
   useEffect(() => {
     const media = window.matchMedia(query)
-
-    const updateMatches = () => {
-      setMatches(media.matches)
-    }
-
-    // Set initial value
+    const updateMatches = () => setMatches(media.matches)
     updateMatches()
-
-    // Listen for changes
     media.addEventListener("change", updateMatches)
-
-    return () => {
-      media.removeEventListener("change", updateMatches)
-    }
+    return () => media.removeEventListener("change", updateMatches)
   }, [query])
 
   return matches
@@ -55,18 +45,67 @@ export default function HomePage() {
   const [restaurants] = useState<Restaurant[]>(mockRestaurants)
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null)
   const [mapVisible, setMapVisible] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const router = useRouter()
   const isMobile = useMediaQuery("(max-width: 768px)")
 
+  useEffect(() => {
+    const checkAuth = async () => {
+      const alreadyAuth = sessionStorage.getItem("authenticated")
+      if (alreadyAuth === "true") {
+        setIsAuthenticated(true)
+        return
+      }
+
+      if (!MiniKit.isInstalled()) {
+        alert("Debes instalar World App para continuar.")
+        return
+      }
+
+      try {
+        const res = await fetch(`/api/nonce`)
+        const { nonce } = await res.json()
+
+        const { finalPayload } = await MiniKit.commandsAsync.walletAuth({
+          nonce,
+          requestId: "0",
+          expirationTime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          notBefore: new Date(Date.now() - 24 * 60 * 60 * 1000),
+          statement: "Inicia sesión con tu wallet para acceder a Faceback",
+        })
+
+        if (finalPayload.status === "error") {
+          alert("Autenticación cancelada o fallida.")
+          return
+        }
+
+        const verifyRes = await fetch("/api/complete-siwe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ payload: finalPayload, nonce }),
+        })
+
+        const result = await verifyRes.json()
+        if (result.isValid) {
+          setIsAuthenticated(true)
+          sessionStorage.setItem("authenticated", "true")
+        } else {
+          alert("No se pudo verificar tu identidad.")
+        }
+      } catch (err) {
+        console.error("Error de autenticación:", err)
+        alert("Ocurrió un error al verificar tu identidad.")
+      }
+    }
+
+    checkAuth()
+  }, [])
+
   const handleRestaurantSelect = (restaurant: Restaurant) => {
     setSelectedRestaurant(restaurant)
-
-    // On mobile, scroll to the restaurant in the list
     if (isMobile) {
       const element = document.getElementById(`restaurant-${restaurant.id}`)
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" })
-      }
+      element?.scrollIntoView({ behavior: "smooth" })
     }
   }
 
@@ -76,6 +115,14 @@ export default function HomePage() {
 
   const toggleMapView = () => {
     setMapVisible(!mapVisible)
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center h-[100dvh]">
+        <p className="text-muted-foreground text-sm">Verificando identidad con World ID...</p>
+      </div>
+    )
   }
 
   return (
@@ -105,21 +152,19 @@ export default function HomePage() {
         <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
           <Badge variant="secondary">Italiana</Badge>
           <Badge variant="secondary">Vegetariana</Badge>
-          <Badge variant="secondary">Comida Rapida</Badge>
-          <Badge variant="secondary">Asiatica</Badge>
+          <Badge variant="secondary">Comida Rápida</Badge>
+          <Badge variant="secondary">Asiática</Badge>
           <Badge variant="secondary">Mexicana</Badge>
         </div>
       </header>
 
       <div className="relative flex-1 flex flex-col">
-        {/* Map View Toggle Button */}
         <div className="absolute top-2 right-2 z-10">
           <Button variant="secondary" size="sm" onClick={toggleMapView}>
             {mapVisible ? "Ocultar Mapa" : "Mostrar Mapa"}
           </Button>
         </div>
 
-        {/* Google Map */}
         <div className={`${mapVisible ? "h-[200px]" : "h-0 overflow-hidden"} transition-all duration-300 ease-in-out`}>
           {mapVisible && (
             <GoogleMapComponent restaurants={restaurants} onRestaurantSelect={handleRestaurantSelect} height="200px" />
@@ -135,7 +180,9 @@ export default function HomePage() {
                   key={restaurant.id}
                   id={`restaurant-${restaurant.id}`}
                   onClick={() => handleRestaurantClick(restaurant)}
-                  className={`cursor-pointer transition-all duration-200 ${selectedRestaurant?.id === restaurant.id ? "ring-2 ring-primary ring-offset-2" : ""}`}
+                  className={`cursor-pointer transition-all duration-200 ${
+                    selectedRestaurant?.id === restaurant.id ? "ring-2 ring-primary ring-offset-2" : ""
+                  }`}
                 >
                   <Card className="overflow-hidden">
                     <div className="h-32 bg-muted relative">
