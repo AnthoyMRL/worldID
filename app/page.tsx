@@ -82,7 +82,7 @@ export default function HomePage() {
     <div className="flex flex-col h-[100dvh] bg-background">
       <header className="px-4 py-3 border-b">
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold">FoodSpot</h1>
+          <h1 className="text-xl font-bold">Faceback</h1>
           <Link href="/profile">
             <Avatar className="h-8 w-8">
               <AvatarImage src="/placeholder.svg?height=32&width=32" alt="User" />
@@ -93,21 +93,21 @@ export default function HomePage() {
         <div className="flex items-center gap-2 mt-3">
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Search restaurants..." className="pl-8" />
+            <Input type="search" placeholder="Buscar restaurantes..." className="pl-8" />
           </div>
           <Link href="/preferences">
             <Button variant="outline" size="icon">
               <Sliders className="h-4 w-4" />
-              <span className="sr-only">Preferences</span>
+              <span className="sr-only">Preferencias</span>
             </Button>
           </Link>
         </div>
         <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
-          <Badge variant="secondary">Italian</Badge>
-          <Badge variant="secondary">Vegetarian</Badge>
-          <Badge variant="secondary">Fast Food</Badge>
-          <Badge variant="secondary">Asian</Badge>
-          <Badge variant="secondary">Mexican</Badge>
+          <Badge variant="secondary">Italiana</Badge>
+          <Badge variant="secondary">Vegetariana</Badge>
+          <Badge variant="secondary">Comida Rapida</Badge>
+          <Badge variant="secondary">Asiatica</Badge>
+          <Badge variant="secondary">Mexicana</Badge>
         </div>
       </header>
 
@@ -115,7 +115,7 @@ export default function HomePage() {
         {/* Map View Toggle Button */}
         <div className="absolute top-2 right-2 z-10">
           <Button variant="secondary" size="sm" onClick={toggleMapView}>
-            {mapVisible ? "Hide Map" : "Show Map"}
+            {mapVisible ? "Ocultar Mapa" : "Mostrar Mapa"}
           </Button>
         </div>
 
@@ -127,7 +127,7 @@ export default function HomePage() {
         </div>
 
         <div className="p-4 flex-1">
-          <h2 className="text-lg font-semibold mb-3">Recommended For You</h2>
+          <h2 className="text-lg font-semibold mb-3">Recomendado para ti</h2>
           <ScrollArea className={`h-[calc(100dvh-${mapVisible ? "380px" : "180px"})]`}>
             <div className="space-y-3">
               {restaurants.map((restaurant) => (
@@ -147,7 +147,7 @@ export default function HomePage() {
                       <Badge className="absolute top-2 right-2">{restaurant.rating} ★</Badge>
                       {restaurant.hasUserReviewed && (
                         <Badge variant="secondary" className="absolute top-2 left-2">
-                          Reviewed
+                          Reseñado
                         </Badge>
                       )}
                     </div>
@@ -183,7 +183,7 @@ export default function HomePage() {
           <Link href="/">
             <Button variant="ghost" className="flex flex-col h-auto py-2">
               <MapPin className="h-5 w-5" />
-              <span className="text-xs mt-1">Explore</span>
+              <span className="text-xs mt-1">Explorar</span>
             </Button>
           </Link>
           <Link href="/reviews">
@@ -201,7 +201,7 @@ export default function HomePage() {
               >
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
               </svg>
-              <span className="text-xs mt-1">Reviews</span>
+              <span className="text-xs mt-1">Reseñas</span>
             </Button>
           </Link>
           <Link href="/profile">
@@ -220,7 +220,7 @@ export default function HomePage() {
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
               </svg>
-              <span className="text-xs mt-1">Profile</span>
+              <span className="text-xs mt-1">Perfil</span>
             </Button>
           </Link>
         </div>

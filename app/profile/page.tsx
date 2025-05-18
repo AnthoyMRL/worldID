@@ -17,10 +17,10 @@ export default function ProfilePage() {
             <span className="sr-only">Back</span>
           </Button>
         </Link>
-        <h1 className="text-xl font-bold">Profile</h1>
+        <h1 className="text-xl font-bold">Perfil</h1>
         <Button variant="ghost" size="icon" className="ml-auto">
           <Settings className="h-5 w-5" />
-          <span className="sr-only">Settings</span>
+          <span className="sr-only">Configuraciones</span>
         </Button>
       </header>
 
@@ -32,11 +32,11 @@ export default function ProfilePage() {
           </Avatar>
           <div>
             <h2 className="text-xl font-bold">Jane Doe</h2>
-            <p className="text-sm text-muted-foreground">Food enthusiast • 15 reviews</p>
+            <p className="text-sm text-muted-foreground">Amante de la comida • 15 reseñas</p>
             <div className="flex items-center mt-1">
               <Badge variant="secondary" className="mr-2">
                 <Star className="h-3 w-3 mr-1 fill-yellow-400 text-yellow-400" />
-                Top Reviewer
+                Top Reseñador
               </Badge>
               <Badge variant="outline">
                 <svg className="h-3 w-3 mr-1" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,7 +49,7 @@ export default function ProfilePage() {
                     fill="white"
                   />
                 </svg>
-                Verified
+                Verificado
               </Badge>
             </div>
           </div>
@@ -67,31 +67,31 @@ export default function ProfilePage() {
                 <circle cx="12" cy="12" r="10" fill="currentColor" />
                 <path d="M12 6V18M18 12H6" stroke="white" strokeWidth="2" strokeLinecap="round" />
               </svg>
-              Token Balance
+              Saldo de Tokens
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex justify-between items-center">
               <div className="text-3xl font-bold">8</div>
-              <div className="text-sm text-muted-foreground">2 more for next reward</div>
+              <div className="text-sm text-muted-foreground">2 más para la siguiente recompensa</div>
             </div>
             <Progress value={80} className="h-2 mt-2" />
 
             <div className="mt-4 grid grid-cols-2 gap-2">
               <Button variant="outline" className="text-sm h-auto py-2">
                 <Gift className="h-4 w-4 mr-2" />
-                Redeem Tokens
+                Canjear Tokens
               </Button>
               <Button variant="outline" className="text-sm h-auto py-2">
                 <Star className="h-4 w-4 mr-2" />
-                View Rewards
+                Ver Recompensas
               </Button>
             </div>
           </CardContent>
         </Card>
 
         <div>
-          <h3 className="text-lg font-semibold mb-3">Recent Activity</h3>
+          <h3 className="text-lg font-semibold mb-3">Actividad reciente</h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
               <div className="flex items-center">
@@ -102,8 +102,8 @@ export default function ProfilePage() {
                   </svg>
                 </div>
                 <div>
-                  <div className="font-medium">Earned Token</div>
-                  <div className="text-sm text-muted-foreground">Review at Italian Bistro</div>
+                  <div className="font-medium">Ganado Tokens</div>
+                  <div className="text-sm text-muted-foreground">Reseña en Italian Bistro</div>
                 </div>
               </div>
               <div className="text-sm">2d ago</div>
@@ -115,7 +115,7 @@ export default function ProfilePage() {
                   <Check className="h-5 w-5" />
                 </div>
                 <div>
-                  <div className="font-medium">Verified Review</div>
+                  <div className="font-medium">Reseña Verificada</div>
                   <div className="text-sm text-muted-foreground">Taco Heaven</div>
                 </div>
               </div>
@@ -131,8 +131,8 @@ export default function ProfilePage() {
                   </svg>
                 </div>
                 <div>
-                  <div className="font-medium">Earned Token</div>
-                  <div className="text-sm text-muted-foreground">Review at Sushi Palace</div>
+                  <div className="font-medium">Ganado Tokens</div>
+                  <div className="text-sm text-muted-foreground">Reseña en Sushi Palace</div>
                 </div>
               </div>
               <div className="text-sm">2w ago</div>
@@ -144,7 +144,7 @@ export default function ProfilePage() {
 
         <Button variant="outline" className="w-full">
           <LogOut className="h-4 w-4 mr-2" />
-          Sign Out
+          Cerrar sesión
         </Button>
       </div>
     </div>

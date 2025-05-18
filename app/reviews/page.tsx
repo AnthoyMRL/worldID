@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 
+
 export default function NewReviewPage() {
   const router = useRouter();
   const [rating, setRating] = useState(0);
@@ -29,6 +30,7 @@ export default function NewReviewPage() {
     e.preventDefault();
     if (!verified) {
       handleVerify();
+      setVerified(true);
       return;
     }
     // Aquí iría la lógica para enviar la nueva reseña
@@ -54,7 +56,7 @@ export default function NewReviewPage() {
             <Label htmlFor="restaurant">Restaurant</Label>
             <Select value={restaurant} onValueChange={(value) => setRestaurant(value)}>
               <SelectTrigger id="restaurant">
-                <SelectValue placeholder="Select restaurant" />
+                <SelectValue placeholder="Selecciona restaurante" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="italian-bistro">Italian Bistro</SelectItem>
@@ -89,10 +91,10 @@ export default function NewReviewPage() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="review">Your Review</Label>
+            <Label htmlFor="review">Tu Reseña</Label>
             <Textarea
               id="review"
-              placeholder="Share your experience..."
+              placeholder="Comparte tu experiencia..."
               className="min-h-[120px]"
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
@@ -100,7 +102,7 @@ export default function NewReviewPage() {
           </div>
 
           <div className="space-y-2">
-            <Label>Photos (optional)</Label>
+            <Label>Fotos (opcional)</Label>
             <div className="grid grid-cols-3 gap-2">
               <div className="aspect-square bg-muted rounded-md flex items-center justify-center">
                 <Upload className="h-6 w-6 text-muted-foreground" />
@@ -117,8 +119,8 @@ export default function NewReviewPage() {
           <div className="mb-4">
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Verify your review</CardTitle>
-                <CardDescription>Prove you actually visited to earn tokens</CardDescription>
+                <CardTitle className="text-base">Verifica tu reseña</CardTitle>
+                <CardDescription>Prueba que realmente visitaste para ganar tokens</CardDescription>
               </CardHeader>
               <CardContent>
                 {!verified && (
@@ -138,13 +140,13 @@ export default function NewReviewPage() {
                         fill="white"
                       />
                     </svg>
-                    <span>Verification required to earn tokens</span>
+                    <span>Verificacion requerida para ganar tokens</span>
                   </div>
                 )}
                 {verified && (
                   <div className="flex items-center text-green-600">
                     <Check className="h-5 w-5 mr-2" />
-                    <span>Verified with World ID</span>
+                    <span>Verificado con World ID</span>
                   </div>
                 )}
               </CardContent>
@@ -152,7 +154,7 @@ export default function NewReviewPage() {
           </div>
 
           <Button className="w-full" type="submit" onClick={handleSubmitReview}>
-            Submit Review
+            Enviar Reseña
           </Button>
         </form>
       </div>
