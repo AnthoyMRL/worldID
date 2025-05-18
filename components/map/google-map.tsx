@@ -15,6 +15,9 @@ interface Restaurant {
   image: string
   cuisine: string
   priceLevel: string
+  distance: string
+  isPopular: boolean
+  hasUserReviewed?: boolean
 }
 
 interface MapProps {
